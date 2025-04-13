@@ -20,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -27,4 +29,16 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm test
+      - run: npm run coverage
+      - name: Report results to DeepSource
+        run: |
+          # Tests have finished and a test coverage report is available
+
+          # Install deepsource CLI
+          curl https://deepsource.io/cli | sh
+
+          # From the root directory, run the report coverage command
+          ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
+
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}

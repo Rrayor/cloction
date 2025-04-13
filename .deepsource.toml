@@ -9,3 +9,7 @@ name = "javascript"
     "nodejs",
     "vitest"
   ]
+
+[[analyzers]]
+name = "test-coverage"
+enabled = true
