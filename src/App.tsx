@@ -1,11 +1,17 @@
+import ClockGrid from '@/components/clock-grid/ClockGrid'
 import './App.css'
-import { Heading } from '@chakra-ui/react'
+import Header from '@/components/header/Header'
+import CollectionContextProvider from '@/components/collection-context/CollectionContext'
 
 function App() {
+
   return (
-    <Heading as="h1" size="2xl" textAlign="center" mt={10}>
-      Cloction
-    </Heading>
+    <main>
+      <CollectionContextProvider>
+        <Header />
+        <ClockGrid />
+      </CollectionContextProvider>
+    </main>
   )
 }
 
