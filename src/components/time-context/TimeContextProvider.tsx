@@ -9,10 +9,14 @@ const MINUTE_UPDATE_INTERVAL = 60_000
 export const TimeContext = createContext<DateTime | undefined>(undefined)
 
 export default function TimeContextProvider({ children }: { children: React.ReactNode }) {
-  const collection = useContext(CollectionContext);
+  const collectionContext = useContext(CollectionContext);
+  if (!collectionContext)
+    throw new Error('CollectionContext is not available');
+
+    const [collection, _] = collectionContext
   
   const updateInterval = useMemo(() => {
-      return collection.clocks.find((clock) => clock.showSeconds) ? SECOND_UPDATE_INTERVAL : MINUTE_UPDATE_INTERVAL
+      return Object.values(collection.clocks).find((clock) => clock.showSeconds) ? SECOND_UPDATE_INTERVAL : MINUTE_UPDATE_INTERVAL
     }, [collection.clocks])
 
   const time = useCurrentTime(updateInterval)

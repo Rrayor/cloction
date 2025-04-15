@@ -1,40 +1,23 @@
-import { useMemo } from 'react';
-import TimezoneName from '@/components/clock-card/timezone-name/TimezoneName';
-import { Card } from '@chakra-ui/react';
-import DateAndTimeDisplay from '@/components/clock-card/date-and-time-display/DateAndTimeDisplay';
-import TimeContextProvider from '@/components/time-context/TimeContextProvider';
+import { useContext, useMemo } from 'react'
+import { Card } from '@chakra-ui/react'
+import DateAndTimeDisplay from '@/components/clock-card/date-and-time-display/DateAndTimeDisplay'
+import TimeContextProvider from '@/components/time-context/TimeContextProvider'
+import ClockCardBody from '@/components/clock-card/clock-card-body/ClockCardBody'
+import { CollectionContext } from '@/components/collection-context/CollectionContext'
 
 export interface ClockCardProps {
-  title: string;
-  timezone: string;
-  showDayOfWeek?: boolean;
-  showSeconds?: boolean;
-  showDate?: boolean;
-  hourFormat24?: boolean;
+  clockId: string
 }
 
-export default function ClockCard({ title, timezone, showDayOfWeek, showSeconds, showDate, hourFormat24 }: ClockCardProps) {
-  const clockFormat = useMemo(() => {
-    const timeFormat = hourFormat24 ? 'HH:mm' : 'hh:mm';
-    const secondsFormat = showSeconds ? ':ss' : '';
-    const ampmFormat = hourFormat24 ? '' : ' a';
-    return `${timeFormat}${secondsFormat}${ampmFormat}`;
-  }, [hourFormat24, showSeconds]);
+export default function ClockCard({ clockId }: ClockCardProps) {
+  const collectionContext = useContext(CollectionContext)
+  if (!collectionContext)
+    throw new Error('CollectionContext is not available')
+  
+  const [collection, _] = collectionContext
+  const { title, timezone } = collection.clocks[clockId]
 
-  const memoizedCardElements = useMemo(() => (
-    <>
-      <Card.Body>
-        <Card.Description>
-          <TimezoneName timezone={timezone} format="long" />
-          <br />
-          <TimezoneName timezone={timezone} format="short" />
-        </Card.Description>
-      </Card.Body>
-      <Card.Footer>
-        <div className="text-lg">Additional Info</div>
-      </Card.Footer>
-    </>
-  ), [timezone]);
+  const cardBody = useMemo(() => <ClockCardBody timezone={timezone} />, [timezone])
 
   return (
     <Card.Root>
@@ -42,14 +25,11 @@ export default function ClockCard({ title, timezone, showDayOfWeek, showSeconds,
         <Card.Title>{title}</Card.Title>
         <TimeContextProvider>
           <DateAndTimeDisplay 
-            clockFormat={clockFormat} 
-            showDate={showDate} 
-            showDayOfWeek={showDayOfWeek}
-            timezone={timezone}
+            clockId={clockId} 
           />
         </TimeContextProvider>
       </Card.Header>
-      {memoizedCardElements}
+      {cardBody}
     </Card.Root>
-  );
+  )
 }
