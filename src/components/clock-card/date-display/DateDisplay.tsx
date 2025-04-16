@@ -1,5 +1,4 @@
 import { Text } from '@chakra-ui/react'
-import { useMemo } from 'react'
 
 export interface DateDisplayProps {
   date: {
