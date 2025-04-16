@@ -1,14 +1,9 @@
 import {Grid } from '@chakra-ui/react'
 import ClockCard from '@/components/clock-card/ClockCard'
-import { useContext } from 'react'
-import { CollectionContext } from '@/components/collection-context/CollectionContext'
+import { useCollectionContext } from '@/context/collection-context/CollectionContext'
 
 export default function ClockGrid() {
-  const collectionContext = useContext(CollectionContext)
-  if (!collectionContext)
-    throw new Error('CollectionContext is not available')
-
-  const [collection, _] = collectionContext
+  const [collection, _] = useCollectionContext()
 
   return (
     <Grid templateColumns={`repeat(${collection.settings?.columnCount}, 1fr)`} gap={6} mt={10}>

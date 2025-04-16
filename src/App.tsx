@@ -1,7 +1,7 @@
 import ClockGrid from '@/components/clock-grid/ClockGrid'
 import './App.css'
 import Header from '@/components/header/Header'
-import CollectionContextProvider from '@/components/collection-context/CollectionContext'
+import CollectionContextProvider from '@/context/collection-context/CollectionContext'
 
 function App() {
 

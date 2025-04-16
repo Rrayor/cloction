@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { configs, config } from 'typescript-eslint'
 import prettier from 'eslint-plugin-prettier'
 import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y'
+import reactCompiler from 'eslint-plugin-react-compiler'
 
 export default config(
   { ignores: ['dist'] },
@@ -13,6 +14,7 @@ export default config(
       js.configs.recommended,
       ...configs.recommended,
       eslintPluginJsxA11y.flatConfigs.recommended,
+      reactCompiler.configs.recommended,
     ],
     files: ['**/*.{ts,tsx}'],
     ignores: ['node_modules', 'dist', "src/components/ui/*.tsx"],
@@ -37,6 +39,7 @@ export default config(
         { allowConstantExport: true },
       ],
       'prettier/prettier': 'error',
+      'react-compiler/react-compiler': 'error',
     },
   }
 )

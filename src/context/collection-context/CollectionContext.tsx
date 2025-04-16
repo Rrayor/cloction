@@ -1,6 +1,6 @@
 import { ClockCollection } from '@/models/clock-collection.model'
 import { SampleCollection } from '@/samples/sample-collection'
-import {createContext, useReducer } from 'react'
+import {createContext, useContext, useReducer } from 'react'
 
 export enum CollectionActionType {
   ADD_CLOCK = 'ADD_CLOCK',
@@ -24,7 +24,7 @@ function collectionReducer(state: ClockCollection, action: CollectionAction): Cl
     case CollectionActionType.UPDATE_CLOCK:
       return { ...state, clocks: { ...state.clocks, [action.payload.id]: action.payload } }
     case CollectionActionType.DELETE_CLOCK: {
-      const { [action.payload]: _, ...remainingClocks } = state.clocks;
+      const { [action.payload]: _, ...remainingClocks } = state.clocks
       return { ...state, clocks: remainingClocks }
     }
     case CollectionActionType.UPDATE_SETTINGS:
@@ -41,11 +41,18 @@ function collectionReducer(state: ClockCollection, action: CollectionAction): Cl
   }
 }
 
+export function useCollectionContext() {
+  const collectionContext = useContext(CollectionContext)
+    if (!collectionContext)
+      throw new Error('CollectionContext is not available')
+  return collectionContext
+}
+
 export default function CollectionContextProvider({ children }: { children: React.ReactNode }) {
   const [collection, dispatch] = useReducer<ClockCollection, [ CollectionAction ]>(collectionReducer, SampleCollection)
   return (
-    <CollectionContext.Provider value={[collection, dispatch]}>
+    <CollectionContext value={[collection, dispatch]}>
       {children}
-    </CollectionContext.Provider>
+    </CollectionContext>
   )
 }

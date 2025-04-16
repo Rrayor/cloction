@@ -1,19 +1,23 @@
-import { CollectionContext } from '@/components/collection-context/CollectionContext';
-import { useCurrentTime } from '@/hooks/useCurrentTime';
-import { DateTime } from 'luxon';
-import { createContext, useContext, useMemo } from 'react';
+import { useCollectionContext } from '@/context/collection-context/CollectionContext'
+import { useCurrentTime } from '@/hooks/useCurrentTime'
+import { DateTime } from 'luxon'
+import { createContext, useContext, useMemo } from 'react'
 
 const SECOND_UPDATE_INTERVAL = 1_000
 const MINUTE_UPDATE_INTERVAL = 60_000
 
 export const TimeContext = createContext<DateTime | undefined>(undefined)
 
-export default function TimeContextProvider({ children }: { children: React.ReactNode }) {
-  const collectionContext = useContext(CollectionContext);
-  if (!collectionContext)
-    throw new Error('CollectionContext is not available');
+export function useTimeContext() {
+  const time = useContext(TimeContext)
+  if (!time) {
+    throw new Error('TimeContext is not available')
+  }
+  return time
+}
 
-    const [collection, _] = collectionContext
+export default function TimeContextProvider({ children }: { children: React.ReactNode }) {
+  const [collection, _] = useCollectionContext()
   
   const updateInterval = useMemo(() => {
       return Object.values(collection.clocks).find((clock) => clock.showSeconds) ? SECOND_UPDATE_INTERVAL : MINUTE_UPDATE_INTERVAL
@@ -21,8 +25,8 @@ export default function TimeContextProvider({ children }: { children: React.Reac
 
   const time = useCurrentTime(updateInterval)
   return (
-    <TimeContext.Provider value={time}>
+    <TimeContext value={time}>
       {children}
-    </TimeContext.Provider>
+    </TimeContext>
   )
 }

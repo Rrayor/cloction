@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import {z} from 'zod'
 
 export const ClockSchema = z.object({
   id: z.string().uuid(),
@@ -8,6 +8,6 @@ export const ClockSchema = z.object({
   showDate: z.boolean().default(false).optional(),
   showDayOfWeek: z.boolean().default(false).optional(),
   hourFormat24: z.boolean().default(false).optional(),
-});
+})
 
 export type Clock = z.infer<typeof ClockSchema>

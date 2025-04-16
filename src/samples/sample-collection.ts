@@ -1,4 +1,4 @@
-import { ClockCollection } from '@/models/clock-collection.model';
+import { ClockCollection } from '@/models/clock-collection.model'
 
 export const SampleCollection: ClockCollection = {
   title: "Sample Clock Collection",
@@ -33,4 +33,4 @@ export const SampleCollection: ClockCollection = {
     showSeconds: true,
   },
   },
-};
+}

@@ -1,8 +1,8 @@
-import TimezoneName from '@/components/clock-card/timezone-name/TimezoneName';
-import { Card } from '@chakra-ui/react';
+import TimezoneName from '@/components/clock-card/timezone-name/TimezoneName'
+import { Card } from '@chakra-ui/react'
 
 export interface ClockCardBodyProps {
-  timezone: string;
+  timezone: string
 }
 
 export default function ClockCardBody({ timezone }: ClockCardBodyProps) {
