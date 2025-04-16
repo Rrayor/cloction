@@ -7,7 +7,5 @@ export interface DigitalClockProps {
 }
 
 export default function DigitalClock({ time, format }: DigitalClockProps) {
-  
   return <Text textStyle="xl">{time.toFormat(format)}</Text>
-
 }

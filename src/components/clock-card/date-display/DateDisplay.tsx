@@ -10,9 +10,8 @@ export interface DateDisplayProps {
 }
 
 export default function DateDisplay({ date }: DateDisplayProps) {
-  const formattedDate = useMemo(() => {
-    return new Date(date.year, date.month - 1, date.day).toLocaleDateString(navigator.language)
-  }, [date])
+  const formattedDate = new Date(date.year, date.month - 1, date.day)
+    .toLocaleDateString(navigator.language)
 
   return (
     <Text textStyle="xl">{formattedDate}</Text>
