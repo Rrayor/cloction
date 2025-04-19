@@ -24,7 +24,7 @@ export function useCurrentTime(updateInterval: number) {
         clearTimeout(timeoutIdRef.current)
       }
     }
-  }, [])
+  }, [updateInterval])
 
   return time
 }
